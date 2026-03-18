@@ -1,0 +1,42 @@
+.post {
+  display: grid;
+  grid-template-rows: 3fr 1fr 2fr;
+  background-color: #282828;
+  color: rgb(241, 241, 241);
+  padding: 1rem;
+  max-height: 550px;
+  border-radius: 8px;
+  min-height: 550px;
+  text-align: center;
+}
+
+.post__title {
+  font-size: 1.4rem;
+  margin-bottom: 0.7rem;
+}
+
+.post__title a {
+  color: white;
+  text-decoration: none;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.post__body {
+  font-size: 1rem;
+  width: 100%;
+  text-align: center;
+  color: rgb(190, 190, 190);
+  margin-bottom: 0.7rem;
+}
+
+.post__image img {
+  object-fit: cover;
+}
+
+.post__author {
+  cursor: pointer;
+}
