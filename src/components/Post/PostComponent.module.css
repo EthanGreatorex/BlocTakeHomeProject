@@ -35,8 +35,15 @@ a {
 
 .post__image img {
   object-fit: cover;
+  width: 250px;
 }
 
 .post__author {
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .post__image img {
+    width: 350px;
+  }
 }

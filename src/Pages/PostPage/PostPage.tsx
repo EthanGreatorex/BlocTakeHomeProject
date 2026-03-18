@@ -43,7 +43,6 @@ export default function PostPage() {
     })();
   }, [id]);
 
-
   useEffect(() => {
     if (!post) return;
 
@@ -113,7 +112,7 @@ export default function PostPage() {
         </h2>
         <div className={styles.recommended_posts}>
           {recommendedPosts.map((recPost) => (
-            <PostComponent post={recPost} />
+            <PostComponent key={post.id} post={recPost} />
           ))}
         </div>
       </div>
