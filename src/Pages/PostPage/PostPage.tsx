@@ -33,8 +33,6 @@ export default function PostPage() {
     (async () => {
       setLoading(true);
       const response = await fetchSingularPost(id || "");
-
-
       setPost(response.data);
 
       if (response.error) {
@@ -43,8 +41,14 @@ export default function PostPage() {
 
       setLoading(false);
     })();
+  }, [id]);
+
+
+  useEffect(() => {
+    if (!post) return;
+
     (async () => {
-      const response = await fetchSingularUser(id || "");
+      const response = await fetchSingularUser(post.userId || "");
 
       setUser(response.data);
 
@@ -53,12 +57,14 @@ export default function PostPage() {
         const postsResponse = await fetchPostsByUser(response.data.id);
         if (postsResponse.data) {
           const allPosts = postsResponse.data as Post[];
-          const filteredPosts = allPosts.filter((p) => p.id !== id).slice(0, 4);
+          const filteredPosts = allPosts
+            .filter((p) => p.id !== post.id)
+            .slice(0, 4);
           setRecommendedPosts(filteredPosts);
         }
       }
     })();
-  }, [id]);
+  }, [post]);
 
   if (loading) {
     return <div className={styles.loading}>Loading...</div>;
