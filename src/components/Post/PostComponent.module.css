@@ -3,10 +3,10 @@
   grid-template-rows: 3fr 1fr 2fr;
   background-color: #282828;
   color: rgb(241, 241, 241);
-  padding: 1rem;
-  max-height: 550px;
+  padding:1rem;
+  max-height: 555px;
   border-radius: 8px;
-  min-height: 550px;
+  min-height: 555px;
   text-align: center;
 }
 
