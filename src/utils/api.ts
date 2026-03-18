@@ -17,9 +17,6 @@ async function apiGet({
       response = await fetch(
         `${BASE_URL}/${endpoint}?_page=${currentPage}&_limit=${postsPerPage}`,
       );
-      console.log(
-        `${BASE_URL}/${endpoint}_page=${currentPage}&_limit=${postsPerPage}`,
-      );
     } else {
       response = await fetch(`${BASE_URL}/${endpoint}`);
     }
@@ -36,7 +33,7 @@ async function apiGet({
 }
 
 // GET all posts
-export const fetchAllPosts = (currentPage: number, postsPerPage: number) =>
+export const fetchAllPosts = (currentPage?: number, postsPerPage?: number) =>
   apiGet({ endpoint: "posts", currentPage, postsPerPage });
 
 // GET singular post

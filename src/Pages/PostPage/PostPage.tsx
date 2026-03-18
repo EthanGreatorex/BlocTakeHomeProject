@@ -9,7 +9,11 @@ import styles from "./PostPage.module.css";
 import { type User, type Post } from "../../types/types";
 
 // Utils
-import { fetchSingularPost, fetchSingularUser, fetchPostsByUser } from "../../utils/api";
+import {
+  fetchSingularPost,
+  fetchSingularUser,
+  fetchPostsByUser,
+} from "../../utils/api";
 
 // Components
 import PostComponent from "../../components/Post/PostComponent";
@@ -30,7 +34,6 @@ export default function PostPage() {
       setLoading(true);
       const response = await fetchSingularPost(id || "");
 
-      console.log(response);
 
       setPost(response.data);
 
@@ -50,7 +53,7 @@ export default function PostPage() {
         const postsResponse = await fetchPostsByUser(response.data.id);
         if (postsResponse.data) {
           const allPosts = postsResponse.data as Post[];
-          const filteredPosts = allPosts.filter(p => p.id !== id).slice(0, 4);
+          const filteredPosts = allPosts.filter((p) => p.id !== id).slice(0, 4);
           setRecommendedPosts(filteredPosts);
         }
       }
@@ -104,7 +107,7 @@ export default function PostPage() {
         </h2>
         <div className={styles.recommended_posts}>
           {recommendedPosts.map((recPost) => (
-            <PostComponent key={recPost.id} post={recPost} />
+            <PostComponent post={recPost} />
           ))}
         </div>
       </div>

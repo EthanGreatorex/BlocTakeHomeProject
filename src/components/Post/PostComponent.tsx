@@ -18,7 +18,7 @@ export default function PostComponent({ post }: { post: Post }) {
       const response = await fetchSingularUser(post.userId);
       setUser(response.data);
     })();
-  });
+  }, []);
 
   return (
     <>
