@@ -1,5 +1,6 @@
 // Imports
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "preact/hooks";
+import { mapClassesCurried } from '@blocdigital/useclasslist';
 
 // Styles
 import styles from "./Home.module.css";
@@ -25,6 +26,8 @@ export default function Home() {
   const [totalPosts, setTotalPosts] = useState(0); // server total length of posts
 
   const isSearching = searchQuery.trim().length > 0;
+
+  const mc = mapClassesCurried(styles, true);
 
   // Fetch users on page load
   useEffect(() => {
@@ -84,21 +87,21 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.container__header}>
+      <div className={mc('container')}>
+        <div className={mc('container__header')}>
           <h1>Blog Posts</h1>
-          <div className={styles.search_container}>
+          <div className={mc('search_container')}>
             <input
               type="text"
               placeholder="Search posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.search_input}
+              className={mc('search_input')}
             />
-            <p className={styles.search__container__results}>
+            <p className={mc('search__container__results')}>
               {effectiveTotal} results
             </p>
-            <p className={styles.search__container__results}>
+            <p className={mc('search__container__results')}>
               Page {currentPage}
             </p>
           </div>
@@ -107,20 +110,20 @@ export default function Home() {
         {allPosts.length > 0 ? (
           <>
             {currentPosts.length > 0 ? (
-              <div className={styles.post_grid}>
+              <div className={mc('post_grid')}>
                 {currentPosts.map((p) => (
                   <div
                     key={p.id}
-                    className={styles.post_grid__card}
+                    className={mc('post_grid__card')}
                     tabIndex={0}
                     aria-label="Go to post"
                   >
-                    <PostComponent key={p.id} post={p} />
+                    <PostComponent  post={p} />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className={styles.no_results}>
+              <div className={mc('no_results')}>
                 No posts found matching "{searchQuery}"
               </div>
             )}

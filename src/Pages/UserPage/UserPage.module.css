@@ -1,7 +1,6 @@
 .container {
   min-height: 100vh;
   background-color: #121212;
-  width: 1024px;
 }
 
 .backButton {
@@ -66,7 +65,7 @@
   margin: 0 auto;
   padding: 0 20px 60px;
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
   gap: 40px;
 }
 
@@ -75,6 +74,7 @@
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 400px;
   height: fit-content;
   color: white;
 }
@@ -129,7 +129,7 @@
 
 .postsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
 }
 
@@ -174,14 +174,8 @@
   .container{
     width: 100%;
   }
-  .content {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 
-  .details {
-    order: 2;
-  }
+
 
   .postsSection {
     order: 1;

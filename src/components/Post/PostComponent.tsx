@@ -1,11 +1,11 @@
 // Imports
-
+import { mapClassesCurried } from '@blocdigital/useclasslist';
 // Styles
 import styles from "./PostComponent.module.css";
 
 // Types
 import type { Post, User } from "../../types/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/hooks";
 import { fetchSingularUser } from "../../utils/api";
 
 export default function PostComponent({ post }: { post: Post }) {
@@ -20,10 +20,12 @@ export default function PostComponent({ post }: { post: Post }) {
     })();
   }, []);
 
+  const mc = mapClassesCurried(styles, true);
+
   return (
     <>
-      <div className={styles.post}>
-        <div className={styles.post__image}>
+      <div className={mc('post')}>
+        <div className={mc('post__image')}>
           <img
             loading="lazy"
             src={`https://picsum.photos/300/300?random=${post.id}&grayscale`}
@@ -32,7 +34,7 @@ export default function PostComponent({ post }: { post: Post }) {
           ></img>
         </div>
         <div
-          className={styles.post__title}
+          className={mc('post__title')}
           onClick={() => (window.location.href = `/post/${post.id}`)}
         >
           <a href={`/post/${post.id}`} aria-label="Go to post">
@@ -40,13 +42,13 @@ export default function PostComponent({ post }: { post: Post }) {
           </a>
         </div>
         <div
-          className={styles.post__body}
+          className={mc('post__body')}
           onClick={() => (window.location.href = `/post/${post.id}`)}
         >
           {post.body}
         </div>
         <div
-          className={styles.post__author}
+          className={mc('post__author')}
           aria-label="Go to author"
           onClick={() => (window.location.href = `/user/${post.userId}`)}
         >

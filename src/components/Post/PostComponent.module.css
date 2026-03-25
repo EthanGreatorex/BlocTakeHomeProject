@@ -45,5 +45,7 @@ a {
 @media (min-width: 768px) {
   .post__image img {
     width: 350px;
+    height: 350px;
+    object-fit: cover;
   }
 }

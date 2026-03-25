@@ -1,9 +1,6 @@
 // Components
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-// Styles
-import "./App.css";
-
 // Pages
 import Home from "./Pages/Home";
 import PostPage from "./Pages/PostPage";

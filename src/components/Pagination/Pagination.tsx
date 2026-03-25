@@ -1,3 +1,6 @@
+// Imports
+import { mapClassesCurried } from "@blocdigital/useclasslist";
+
 // Styles
 import styles from "./Pagination.module.css";
 
@@ -30,18 +33,20 @@ export default function Pagination({
     });
   };
 
+  const mc = mapClassesCurried(styles, true);
+
   return (
     <nav>
-      <ul className={styles.pagination}>
+      <ul className={mc("pagination")}> 
         {pageNumbers.map((number) => (
           <div
-            className={`${styles.pagination__element}   ${currentPage === number ? styles.active : ""}`}
+            className={`${mc("pagination__element")}   ${currentPage === number ? mc("active") : ""}`}
           >
-            <li key={number} className={`${styles.pagination__number}`}>
+            <li key={number} className={`${mc("pagination__number")}`}>
               <a
                 onClick={(e) => handleClick(e, number)}
                 href="!#"
-                className={`${styles.pagination__link}  ${currentPage === number ? styles.active_text : ""}`}
+                className={`${mc("pagination__link")}  ${currentPage === number ? mc("active_text") : ""}`}
               >
                 {number}
               </a>

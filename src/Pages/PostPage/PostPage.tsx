@@ -1,6 +1,7 @@
 // Imports
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/hooks";
+import { mapClassesCurried } from '@blocdigital/useclasslist';
 
 // Styles
 import styles from "./PostPage.module.css";
@@ -43,6 +44,8 @@ export default function PostPage() {
     })();
   }, [id]);
 
+  const mc = mapClassesCurried(styles, true);
+
   useEffect(() => {
     if (!post) return;
 
@@ -66,39 +69,39 @@ export default function PostPage() {
   }, [post]);
 
   if (loading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <div className={mc('loading')}>Loading...</div>;
   }
 
   if (!post) {
-    return <div className={styles.error}>Post not found</div>;
+    return <div className={mc('error')}>Post not found</div>;
   }
 
   return (
-    <div className={styles.container}>
+    <div className={mc('container')}>
       <button
-        className={styles.button}
+        className={mc('button')}
         onClick={() => (window.location.href = "/")}
       >
         Back to all posts
       </button>
-      <div className={styles.post}>
-        <div className={styles.post__image}>
+      <div className={mc('post')}>
+        <div className={mc('post__image')}>
           <img
             loading="lazy"
             src={`https://picsum.photos/900/500?random=${post.id}&grayscale`}
             alt="Blog post image"
           ></img>
-          <h2 className={styles.post__title}>{post.title}</h2>
-          <p className={styles.post__body}>{post.body}</p>
-          <div className={styles.author_details}>
-            <div className={styles.avatar}>
+          <h2 className={mc('post__title')}>{post.title}</h2>
+          <p className={mc('post__body')}>{post.body}</p>
+          <div className={mc('author_details')}>
+            <div className={mc('avatar')}>
               <img
                 src={`https://picsum.photos/150/150?random=${post.id}&grayscale`}
                 alt="Author's profile"
               />
             </div>
             <p
-              className={styles.post__author}
+              className={mc('post__author')}
               onClick={() => (window.location.href = `/user/${user?.id}`)}
             >
               <a href={`/user/${user?.id}`}>Posted by {user?.username}</a>
@@ -106,11 +109,11 @@ export default function PostPage() {
           </div>
         </div>
       </div>
-      <div className={styles.more_posts}>
-        <h2 className={styles.more_posts__title}>
+      <div className={mc('more_posts')}>
+        <h2 className={mc('more_posts__title')}>
           Recommended posts by {user?.username}
         </h2>
-        <div className={styles.recommended_posts}>
+        <div className={mc('recommended_posts')}>
           {recommendedPosts.map((recPost) => (
             <PostComponent key={post.id} post={recPost} />
           ))}

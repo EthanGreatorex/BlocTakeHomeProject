@@ -1,6 +1,7 @@
 // Imports
 import { useParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "preact/hooks";
+import { mapClassesCurried } from "@blocdigital/useclasslist";
 
 // Components
 import PostComponent from "../../components/Post";
@@ -21,6 +22,8 @@ export default function UserPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const mc = mapClassesCurried(styles, true);
 
   // Filter posts based on the search query
   const filteredPosts = useMemo(() => {
@@ -47,7 +50,7 @@ export default function UserPage() {
       if (userResponse.error) {
         setError("Failed to fetch user");
         setLoading(false);
-        window.location.href='/'
+        window.location.href = "/";
       }
       setUser(userResponse.data);
 
@@ -63,46 +66,46 @@ export default function UserPage() {
   }, [id]);
 
   if (loading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <div className={mc("loading")}>Loading...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>{error}</div>;
+    return <div className={mc("error")}>{error}</div>;
   }
 
   if (!user) {
-    return <div className={styles.error}>User not found</div>;
+    return <div className={mc("error")}>User not found</div>;
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.banner}>
-        <div className={styles.bannerContent}>
-          <div className={styles.avatar}>
+    <div className={mc("container")}>
+      <div className={mc("banner")}>
+        <div className={mc("bannerContent")}>
+          <div className={mc("avatar")}>
             <img
               src={`https://picsum.photos/150/150?random=${user.id}&grayscale`}
               alt={`${user.username} avatar`}
             />
           </div>
-          <div className={styles.userInfo}>
-            <h1 className={styles.username}>{user.username}</h1>
-            <p className={styles.email}>{user.email}</p>
-            <p className={styles.description}>
+          <div className={mc("userInfo")}>
+            <h1 className={mc("username")}>{user.username}</h1>
+            <p className={mc("email")}>{user.email}</p>
+            <p className={mc("description")}>
               {user.company.name} - {user.company.catchPhrase}
             </p>
           </div>
         </div>
       </div>
 
-      <div className={styles.content}>
-        <div className={styles.details}>
+      <div className={mc("content")}>
+        <div className={mc("details")}>
           <button
-            className={styles.backButton}
+            className={mc("backButton")}
             onClick={() => (window.location.href = "/")}
           >
             Back to all posts
           </button>
-          <div className={styles.detailSection}>
+          <div className={mc("detailSection")}>
             <h2>About</h2>
             <p>
               <strong>Website:</strong>{" "}
@@ -123,7 +126,7 @@ export default function UserPage() {
             </p>
           </div>
 
-          <div className={styles.detailSection}>
+          <div className={mc("detailSection")}>
             <h2>Company</h2>
             <p>
               <strong>Name:</strong> {user.company.name}
@@ -137,29 +140,29 @@ export default function UserPage() {
           </div>
         </div>
 
-        <div className={styles.postsSection}>
+        <div className={mc("postsSection")}>
           <h2>
             Posts by {user.username} ({posts.length})
           </h2>
-          <div className={styles.search_container}>
+          <div className={mc("search_container")}>
             <input
               type="text"
               placeholder={`Search ${user.username}s posts...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.search_input}
+              className={mc("search_inpu")}
             />
-            <p className={styles.search__container__results}>
+            <p className={mc("search__container__results")}>
               {filteredPosts.length} results
             </p>
           </div>
-          <p className={styles.search__results}>
+          <p className={mc("search__results")}>
             {filteredPosts.length} results
           </p>
           {posts.length === 0 ? (
-            <p className={styles.noPosts}>No posts found.</p>
+            <p className={mc("noPosts")}>No posts found.</p>
           ) : (
-            <div className={styles.postsGrid}>
+            <div className={mc("postsGrid")}>
               {filteredPosts.map((post: Post) => (
                 <PostComponent key={post.id} post={post} />
               ))}

@@ -1,8 +1,11 @@
 .container {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  max-width: 800px;
   margin-top: 10px;
   text-align: left;
+  align-items: center;
+  justify-content: center;
 }
 
 .button {
@@ -14,6 +17,7 @@
   font-size: 1.05rem;
   margin-bottom: 1rem;
   cursor: pointer;
+  align-self: flex-start;
 }
 
 .loading {
@@ -33,6 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 900px;
   text-align: center;
 }
 
@@ -93,6 +98,6 @@
   }
 
   .recommended_posts {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   }
 }
