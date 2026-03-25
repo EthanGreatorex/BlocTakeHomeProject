@@ -1,10 +1,12 @@
 // Imports
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "preact/hooks";
-import { mapClassesCurried } from '@blocdigital/useclasslist';
 
 // Styles
+import { mapClassesCurried } from "@blocdigital/useclasslist";
 import styles from "./PostPage.module.css";
+
+const mc = mapClassesCurried(styles, true);
 
 // Types
 import { type User, type Post } from "../../types/types";
@@ -26,31 +28,27 @@ export default function PostPage() {
   const [user, setUser] = useState<User | null>(null);
   const [recommendedPosts, setRecommendedPosts] = useState<Post[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (!id) {
-      window.location.href = "/";
-    }
+    if (!id) navigate("/");
 
     (async () => {
       setLoading(true);
-      const response = await fetchSingularPost(id || "");
+      const response = await fetchSingularPost(Number(id));
       setPost(response.data);
 
-      if (response.error) {
-        window.location.href = "/";
-      }
+      if (response.error) navigate("/");
 
       setLoading(false);
     })();
-  }, [id]);
-
-  const mc = mapClassesCurried(styles, true);
+  }, [id, navigate]);
 
   useEffect(() => {
     if (!post) return;
 
     (async () => {
-      const response = await fetchSingularUser(post.userId || "");
+      const response = await fetchSingularUser(post.userId);
 
       setUser(response.data);
 
@@ -69,53 +67,48 @@ export default function PostPage() {
   }, [post]);
 
   if (loading) {
-    return <div className={mc('loading')}>Loading...</div>;
+    return <div className={mc("loading")}>Loading...</div>;
   }
 
   if (!post) {
-    return <div className={mc('error')}>Post not found</div>;
+    return <div className={mc("error")}>Post not found</div>;
   }
 
   return (
-    <div className={mc('container')}>
-      <button
-        className={mc('button')}
-        onClick={() => (window.location.href = "/")}
-      >
+    <div className={mc("container")}>
+      <Link className={mc("button")} to='/'>
         Back to all posts
-      </button>
-      <div className={mc('post')}>
-        <div className={mc('post__image')}>
+      </Link>
+      <div className={mc("post")}>
+        <div className={mc("post__image")}>
           <img
-            loading="lazy"
+            loading='lazy'
             src={`https://picsum.photos/900/500?random=${post.id}&grayscale`}
-            alt="Blog post image"
-          ></img>
-          <h2 className={mc('post__title')}>{post.title}</h2>
-          <p className={mc('post__body')}>{post.body}</p>
-          <div className={mc('author_details')}>
-            <div className={mc('avatar')}>
+            alt='Blog post image'
+          />
+          <h2 className={mc("post__title")}>{post.title}</h2>
+          <p className={mc("post__body")}>{post.body}</p>
+          <div className={mc("author_details")}>
+            <div className={mc("avatar")}>
               <img
                 src={`https://picsum.photos/150/150?random=${post.id}&grayscale`}
                 alt="Author's profile"
               />
             </div>
-            <p
-              className={mc('post__author')}
-              onClick={() => (window.location.href = `/user/${user?.id}`)}
-            >
-              <a href={`/user/${user?.id}`}>Posted by {user?.username}</a>
-            </p>
+
+            <Link className={mc("post__author")} to={`/user/${user?.id}`}>
+              Posted by {user?.username}
+            </Link>
           </div>
         </div>
       </div>
-      <div className={mc('more_posts')}>
-        <h2 className={mc('more_posts__title')}>
+      <div className={mc("more_posts")}>
+        <h2 className={mc("more_posts__title")}>
           Recommended posts by {user?.username}
         </h2>
-        <div className={mc('recommended_posts')}>
+        <div className={mc("recommended_posts")}>
           {recommendedPosts.map((recPost) => (
-            <PostComponent key={post.id} post={recPost} />
+            <PostComponent key={recPost.id} post={recPost} />
           ))}
         </div>
       </div>

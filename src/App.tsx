@@ -11,9 +11,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/post/:id" element={<PostPage />} />
-          <Route path="/user/:id" element={<UserPage />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/post/:id' element={<PostPage />} />
+          <Route path='/user/:id' element={<UserPage />} />
+          <Route
+            path='*'
+            element={<div style={{ color: "white" }}>Page not found</div>}
+          />
         </Routes>
       </BrowserRouter>
     </>

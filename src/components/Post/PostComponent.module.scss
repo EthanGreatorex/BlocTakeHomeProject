@@ -1,0 +1,53 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+  background-color: #282828;
+  color: rgb(241, 241, 241);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+
+  &:has(.post__link:focus-visible) {
+    outline: 2px solid #ffffff;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: white;
+    text-decoration: none;
+    outline: none;
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    margin-bottom: 0.7rem;
+  }
+
+  &__body {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    color: rgb(190, 190, 190);
+    margin-bottom: 0.7rem;
+  }
+
+  &__image img {
+    object-fit: cover;
+    display: block;
+
+    @media (min-width: 768px) {
+      width: 100%;
+      max-height: 200px;
+    }
+  }
+
+  &__author {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+  }
+}

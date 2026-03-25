@@ -1,16 +1,19 @@
-// Imports
-import { mapClassesCurried } from '@blocdigital/useclasslist';
-// Styles
-import styles from "./PostComponent.module.css";
-
-// Types
-import type { Post, User } from "../../types/types";
 import { useEffect, useState } from "preact/hooks";
 import { fetchSingularUser } from "../../utils/api";
 
+// Styles
+import { mapClassesCurried } from "@blocdigital/useclasslist";
+import styles from "./PostComponent.module.scss";
+
+const mc = mapClassesCurried(styles, true);
+
+import { Link } from "react-router-dom";
+
+// Types
+import type { Post, User } from "../../types/types";
+
 export default function PostComponent({ post }: { post: Post }) {
-  // Use states
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
 
   // Fetch the user details of the post author
   useEffect(() => {
@@ -18,43 +21,30 @@ export default function PostComponent({ post }: { post: Post }) {
       const response = await fetchSingularUser(post.userId);
       setUser(response.data);
     })();
-  }, []);
+  }, [post.userId]);
 
-  const mc = mapClassesCurried(styles, true);
+  if (!user) return <div>Loading</div>;
 
   return (
-    <>
-      <div className={mc('post')}>
-        <div className={mc('post__image')}>
+    <div className={mc("post")}>
+      <Link
+        to={`/post/${post.id}`}
+        className={mc("post__link")}
+        aria-label={`Go to post titled ${post.title}`}
+      >
+        <div className={mc("post__image")}>
           <img
-            loading="lazy"
+            loading='lazy'
             src={`https://picsum.photos/300/300?random=${post.id}&grayscale`}
-            alt="Blog post image"
-            onClick={() => (window.location.href = `/post/${post.id}`)}
-          ></img>
+            alt='Blog post image'
+          />
         </div>
-        <div
-          className={mc('post__title')}
-          onClick={() => (window.location.href = `/post/${post.id}`)}
-        >
-          <a href={`/post/${post.id}`} aria-label="Go to post">
-            {post.title}
-          </a>
-        </div>
-        <div
-          className={mc('post__body')}
-          onClick={() => (window.location.href = `/post/${post.id}`)}
-        >
-          {post.body}
-        </div>
-        <div
-          className={mc('post__author')}
-          aria-label="Go to author"
-          onClick={() => (window.location.href = `/user/${post.userId}`)}
-        >
-          <a href={`/user/${post.userId}`}>Posted by {user?.username}</a>
-        </div>
-      </div>
-    </>
+        <div className={mc("post__title")}>{post.title}</div>
+        <div className={mc("post__body")}>{post.body}</div>
+      </Link>
+      <Link className={mc("post__author")} to={`/user/${post.userId}`}>
+        Posted by {user?.username}
+      </Link>
+    </div>
   );
 }

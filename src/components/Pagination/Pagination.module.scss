@@ -1,0 +1,32 @@
+.pagination {
+  display: grid;
+  margin-top: 100px;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  gap: 1rem;
+  margin-left: 10%;
+  list-style: none;
+
+  &__link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    &[aria-pressed="true"] {
+      color: black;
+      background-color: white;
+    }
+  }
+
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: center;
+    margin-left: 0px;
+  }
+}
