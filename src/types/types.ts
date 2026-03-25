@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  id: number;
   username: string;
   email: string;
   address: {
@@ -22,8 +22,8 @@ export interface User {
 }
 
 export interface Post {
-  userId: string;
-  id: string;
+  userId: number;
+  id: number;
   title: string;
   body: string;
 }

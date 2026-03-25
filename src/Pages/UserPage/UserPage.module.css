@@ -13,6 +13,7 @@
   font-weight: 500;
   cursor: pointer;
   margin-bottom: 20px;
+  text-decoration: none;
 }
 
 .banner {
@@ -65,7 +66,7 @@
   margin: 0 auto;
   padding: 0 20px 60px;
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
   gap: 40px;
 }
 
@@ -171,7 +172,7 @@
     font-size: 2.5rem;
   }
 
-  .container{
+  .container {
     width: 100%;
   }
 
@@ -197,6 +198,7 @@
 
 .search__container__results {
   font-size: 1rem;
+  color: white;
 }
 
 .search_input {
@@ -218,7 +220,4 @@
 
 .search_input::placeholder {
   color: #888;
-}
-.search__results {
-  color: white;
 }

@@ -1,5 +1,5 @@
 // Imports
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { mapClassesCurried } from "@blocdigital/useclasslist";
 
@@ -8,6 +8,7 @@ import PostComponent from "../../components/Post";
 
 // Styles
 import styles from "./UserPage.module.css";
+const mc = mapClassesCurried(styles, true);
 
 // Types
 import type { User, Post } from "../../types/types";
@@ -23,13 +24,12 @@ export default function UserPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const mc = mapClassesCurried(styles, true);
+  const navigate = useNavigate();
 
   // Filter posts based on the search query
   const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return posts;
-    }
+    if (!searchQuery.trim()) return posts;
+
     return posts.filter(
       (post) =>
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -38,23 +38,21 @@ export default function UserPage() {
   }, [posts, searchQuery]);
 
   useEffect(() => {
-    if (!id) {
-      window.location.href = "/";
-    }
+    if (!id) navigate("/");
 
     (async () => {
       setLoading(true);
       setError(null);
 
-      const userResponse = await fetchSingularUser(id || "");
+      const userResponse = await fetchSingularUser(Number(id));
       if (userResponse.error) {
         setError("Failed to fetch user");
         setLoading(false);
-        window.location.href = "/";
+        navigate("/");
       }
       setUser(userResponse.data);
 
-      const postsResponse = await fetchPostsByUser(id || "");
+      const postsResponse = await fetchPostsByUser(Number(id));
       if (postsResponse.error) {
         setError("Failed to fetch posts");
       } else {
@@ -63,7 +61,7 @@ export default function UserPage() {
 
       setLoading(false);
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) {
     return <div className={mc("loading")}>Loading...</div>;
@@ -99,20 +97,17 @@ export default function UserPage() {
 
       <div className={mc("content")}>
         <div className={mc("details")}>
-          <button
-            className={mc("backButton")}
-            onClick={() => (window.location.href = "/")}
-          >
+          <Link className={mc("backButton")} to='/'>
             Back to all posts
-          </button>
+          </Link>
           <div className={mc("detailSection")}>
             <h2>About</h2>
             <p>
               <strong>Website:</strong>{" "}
               <a
                 href={`http://${user.website}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 {user.website}
               </a>
@@ -146,19 +141,16 @@ export default function UserPage() {
           </h2>
           <div className={mc("search_container")}>
             <input
-              type="text"
+              type='text'
               placeholder={`Search ${user.username}s posts...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={mc("search_inpu")}
+              className={mc("search_input")}
             />
             <p className={mc("search__container__results")}>
               {filteredPosts.length} results
             </p>
           </div>
-          <p className={mc("search__results")}>
-            {filteredPosts.length} results
-          </p>
           {posts.length === 0 ? (
             <p className={mc("noPosts")}>No posts found.</p>
           ) : (

@@ -9,6 +9,7 @@
 }
 
 .button {
+  text-decoration: none;
   padding: 0.5rem;
   background-color: rgb(45, 45, 45);
   color: white;
@@ -65,6 +66,7 @@
 .post__author {
   color: white;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .author_details {
@@ -92,12 +94,13 @@
   .post__image img {
     width: 100%;
   }
+
   .avatar img {
     width: 100px;
     height: 100px;
   }
 
   .recommended_posts {
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
 }

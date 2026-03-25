@@ -1,9 +1,10 @@
 // Imports
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { mapClassesCurried } from '@blocdigital/useclasslist';
+import { mapClassesCurried } from "@blocdigital/useclasslist";
 
 // Styles
 import styles from "./Home.module.css";
+const mc = mapClassesCurried(styles, true);
 
 // Services
 import { fetchAllPosts, fetchAllUsers } from "../../utils/api";
@@ -15,19 +16,18 @@ import Pagination from "../../components/Pagination";
 // Types
 import { type User, type Post } from "../../types/types";
 
+const POSTS_PER_PAGE = 12;
+
 // Home page for displaying all the posts
 export default function Home() {
   // State
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalPosts, setTotalPosts] = useState(0); // server total length of posts
 
   const isSearching = searchQuery.trim().length > 0;
-
-  const mc = mapClassesCurried(styles, true);
 
   // Fetch users on page load
   useEffect(() => {
@@ -42,11 +42,11 @@ export default function Home() {
     if (isSearching) return; // skip this when the user is searching
 
     (async () => {
-      const response = await fetchAllPosts(currentPage, postsPerPage);
+      const response = await fetchAllPosts(currentPage, POSTS_PER_PAGE);
       setAllPosts(response.data || []);
       setTotalPosts(Number(response.totalCount) || 0);
     })();
-  }, [isSearching, currentPage, postsPerPage]);
+  }, [isSearching, currentPage]);
 
   // When search starts, fetch all the posts
   useEffect(() => {
@@ -77,31 +77,31 @@ export default function Home() {
 
   const currentPosts = useMemo(() => {
     if (!isSearching) return allPosts;
-    const startIndex = (currentPage - 1) * postsPerPage;
-    const endIndex = startIndex + postsPerPage;
+    const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+    const endIndex = startIndex + POSTS_PER_PAGE;
     return filteredPosts.slice(startIndex, endIndex);
-  }, [isSearching, allPosts, filteredPosts, currentPage, postsPerPage]);
+  }, [isSearching, allPosts, filteredPosts, currentPage]);
 
   // Effective total amount of posts (across all pages)
   const effectiveTotal = isSearching ? filteredPosts.length : totalPosts;
 
   return (
     <>
-      <div className={mc('container')}>
-        <div className={mc('container__header')}>
+      <div className={mc("container")}>
+        <div className={mc("container__header")}>
           <h1>Blog Posts</h1>
-          <div className={mc('search_container')}>
+          <div className={mc("search_container")}>
             <input
-              type="text"
-              placeholder="Search posts..."
+              type='text'
+              placeholder='Search posts...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={mc('search_input')}
+              className={mc("search_input")}
             />
-            <p className={mc('search__container__results')}>
+            <p className={mc("search__container__results")}>
               {effectiveTotal} results
             </p>
-            <p className={mc('search__container__results')}>
+            <p className={mc("search__container__results")}>
               Page {currentPage}
             </p>
           </div>
@@ -110,26 +110,19 @@ export default function Home() {
         {allPosts.length > 0 ? (
           <>
             {currentPosts.length > 0 ? (
-              <div className={mc('post_grid')}>
+              <div className={mc("post_grid")}>
                 {currentPosts.map((p) => (
-                  <div
-                    key={p.id}
-                    className={mc('post_grid__card')}
-                    tabIndex={0}
-                    aria-label="Go to post"
-                  >
-                    <PostComponent  post={p} />
-                  </div>
+                  <PostComponent key={p.id} post={p} />
                 ))}
               </div>
             ) : (
-              <div className={mc('no_results')}>
+              <div className={mc("no_results")}>
                 No posts found matching "{searchQuery}"
               </div>
             )}
 
             <Pagination
-              postsPerPage={postsPerPage}
+              postsPerPage={POSTS_PER_PAGE}
               totalPosts={effectiveTotal}
               currentPage={currentPage}
               clickHandle={setCurrentPage}
